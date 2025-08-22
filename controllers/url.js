@@ -3,10 +3,10 @@ const { nanoid } = require('nanoid'); // got this form npm js or nanoid github
 const URL = require('../models/url');
 
 async function handleGenerateNewShortUrl(req, res) {
-    const body = req.body;
+    const body = req.body; //  data sent by client (POST request).
     if(!body.url) return res.status(400).json({ error: 'url is required'});
     const shortId = nanoid(8);
-    await URL.create({
+    await URL.create({     // URL.create(...) → Mongoose method to insert a new document in MongoDB.
         shortId: shortId,
         redirectURL:  body.url,
         visitHistory: [],
@@ -15,8 +15,8 @@ async function handleGenerateNewShortUrl(req, res) {
 }
 
 async function handleGetAnalytics(req, res) {
-    const shortId = req.params.shortId;
-    const result = await URL.findOne({ shortId });
+    const shortId = req.params.shortId; // req.params.shortId → dynamic parameter in URL (/analytics/:shortId).
+    const result = await URL.findOne({ shortId });  // URL.findOne(...) → Mongoose method to find a single document.
     return res.json({ totalClicks:result.visitHistory.length,
         analytics: result.visitHistory,
     });
