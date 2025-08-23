@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Analytics - <%= shortId %></title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: url("https://static.vecteezy.com/system/resources/previews/002/289/261/large_2x/school-education-seamless-pattern-education-symbols-sketch-backdrop-with-school-supplies-back-to-school-icons-doodle-line-art-notebook-background-vector.jpg")
+          no-repeat center center;
+        background-size: cover;
+        min-height: 100vh;
+        padding: 2rem 0;
+      }
+
+      .analytics-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        padding: 2rem;
+        margin: 0 auto;
+        max-width: 1200px;
+        border: 1px solid #e5e7eb;
+      }
+
+      .stats-card {
+        /* Simplified stats card with solid colors */
+        background: #3b82f6;
+        color: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+        transition: transform 0.2s ease;
+      }
+
+      .stats-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .stats-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .stats-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .url-info-card {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 1.5rem;
+        border-left: 4px solid #3b82f6;
+        border: 1px solid #e5e7eb;
+      }
+
+      .table-container {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        border: 1px solid #e5e7eb;
+      }
+
+      .table thead th {
+        /* Simplified table header with solid color */
+        background: #374151;
+        color: white;
+        border: none;
+        padding: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.85rem;
+      }
+
+      .table tbody tr {
+        transition: background-color 0.2s ease;
+      }
+
+      .table tbody tr:hover {
+        background-color: #f9fafb;
+      }
+
+      .table tbody td {
+        padding: 1rem;
+        border-color: #e5e7eb;
+        vertical-align: middle;
+      }
+
+      .btn-custom {
+        /* Simplified button with solid background */
+        background: #3b82f6;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.2s ease;
+        color: white;
+      }
+
+      .btn-custom:hover {
+        background: #2563eb;
+        transform: translateY(-1px);
+        color: white;
+      }
+
+      .chart-container {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        border: 1px solid #e5e7eb;
+        margin-bottom: 2rem;
+      }
+
+      .page-title {
+        color: #1f2937;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .page-subtitle {
+        color: #6b7280;
+        font-weight: 400;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        color: #1f2937;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .badge-custom {
+        /* Simplified badge with solid color */
+        background: #3b82f6;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="analytics-container">
+        <!-- Added professional header with title and subtitle -->
+        <div class="text-center mb-4">
+          <h1 class="page-title">
+            <i class="fas fa-chart-line me-2"></i>
+            Analytics Dashboard
+          </h1>
+          <p class="page-subtitle">Detailed insights for your shortened URL</p>
+        </div>
+
+        <!-- Added URL info card with better styling -->
+        <div class="url-info-card mb-4">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h5 class="mb-2">
+                <i class="fas fa-link me-2 text-primary"></i>
+                Short URL:
+                <a
+                  href="http://localhost:8001/<%= shortId %>"
+                  target="_blank"
+                  class="badge-custom"
+                >
+                  http://localhost:8001/<%= shortId %>
+                </a>
+              </h5>
+              <p class="mb-0">
+                <strong>Redirects to:</strong>
+                <a
+                  href="<%= redirectURL %>"
+                  target="_blank"
+                  class="text-decoration-none"
+                >
+                  <%= redirectURL %>
+                  <i class="fas fa-external-link-alt ms-1"></i>
+                </a>
+              </p>
+            </div>
+            <div class="col-md-4 text-end">
+              <div class="stats-card">
+                <div class="stats-number"><%= totalClicks %></div>
+                <div class="stats-label">Total Clicks</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- chart -->
+        <% if (analytics.length > 0) { %>
+        <div class="chart-container">
+          <h4 class="section-title">
+            <i class="fas fa-chart-bar"></i>
+            Click Trends
+          </h4>
+          <canvas id="clickChart" height="100"></canvas>
+        </div>
+        <% } %>
+
+        <!-- table  -->
+        <div class="table-container">
+          <h4 class="section-title p-3 mb-0">
+            <i class="fas fa-history"></i>
+            Click History
+          </h4>
+
+          <% if (analytics.length > 0) { %>
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th><i class="fas fa-hashtag me-2"></i>Click #</th>
+                <th><i class="fas fa-calendar-alt me-2"></i>Date</th>
+                <th><i class="fas fa-clock me-2"></i>Time</th>
+                <th><i class="fas fa-globe me-2"></i>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% analytics.forEach((entry, index) => { %>
+              <tr>
+                <td>
+                  <span class="badge bg-primary rounded-pill"
+                    >#<%= index + 1 %></span
+                  >
+                </td>
+                <td>
+                  <i class="fas fa-calendar me-2 text-muted"></i>
+                  <%= new Date(entry.timestamp).toLocaleDateString() %>
+                </td>
+                <td>
+                  <i class="fas fa-clock me-2 text-muted"></i>
+                  <%= new Date(entry.timestamp).toLocaleTimeString() %>
+                </td>
+                <td>
+                  <span class="badge bg-success">
+                    <i class="fas fa-check me-1"></i>
+                    Successful
+                  </span>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <div class="text-center p-5">
+            <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No clicks yet</h5>
+            <p class="text-muted">
+              Share your link to start collecting analytics data.
+            </p>
+          </div>
+          <% } %>
+        </div>
+
+        <!-- Enhanced back button with better styling -->
+        <div class="text-center mt-4">
+          <a href="/" class="btn btn-custom">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <% if (analytics.length > 0) { %>
+    <script>
+      // Create click trend chart
+      const ctx = document.getElementById('clickChart').getContext('2d');
+      const analytics = <%- JSON.stringify(analytics) %>;
+
+      // Process data for chart
+      const clicksByDate = {};
+      analytics.forEach(entry => {
+        const date = new Date(entry.timestamp).toLocaleDateString();
+        clicksByDate[date] = (clicksByDate[date] || 0) + 1;
+      });
+
+      const labels = Object.keys(clicksByDate);
+      const data = Object.values(clicksByDate);
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Clicks per Day',
+            data: data,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
+            }
+          }
+        }
+      });
+    </script>
+    <% } %>
+  </body>
+</html>

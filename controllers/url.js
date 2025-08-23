@@ -21,9 +21,12 @@ async function handleGenerateNewShortUrl(req, res) {
 async function handleGetAnalytics(req, res) {
     const shortId = req.params.shortId; // req.params.shortId → dynamic parameter in URL (/analytics/:shortId).
     const result = await URL.findOne({ shortId });  // URL.findOne(...) → Mongoose method to find a single document.
-    return res.json({ totalClicks:result.visitHistory.length,
-        analytics: result.visitHistory,
-    });
+    return res.render("analytics", {
+    shortId: result.shortId,
+    redirectURL: result.redirectURL,
+    totalClicks: result.visitHistory.length,
+    analytics: result.visitHistory,
+  });
 }
 
 module.exports = {

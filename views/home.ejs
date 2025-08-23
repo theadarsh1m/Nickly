@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <style>
-      body {
-        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-          "Lucida Sans", Arial, sans-serif;
-      }
-    </style>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap CSS -->
@@ -16,24 +10,445 @@
     />
     <!-- Bootstrap JS (with Popper) -->
     <script src="/static/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
-    <title>URL shortner</title>
+    <title>LinkShort - Premium URL Shortener</title>
+
+    <style>
+      :root {
+        /* CSS Variables  can use in css like var(--name) */
+        --primary-color: #6366f1;
+        --primary-dark: #4f46e5;
+        --secondary-color: #f8fafc;
+        --accent-color: #10b981;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --border-color: #e2e8f0;
+        --success-color: #059669;
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        background: url("https://static.vecteezy.com/system/resources/previews/002/289/261/large_2x/school-education-seamless-pattern-education-symbols-sketch-backdrop-with-school-supplies-back-to-school-icons-doodle-line-art-notebook-background-vector.jpg")
+          no-repeat center center;
+        background-repeat: repeat;
+        background-size: 80rem 80rem;
+
+        min-height: 100vh;
+        color: var(--text-primary);
+        line-height: 1.6;
+      }
+
+      .container-custom {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      .header {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        text-align: center;
+        background: black; /* solid color */
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        color: whitesmoke;
+      }
+
+      .header h1 {
+        font-size: 3.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+
+      .main-card {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        box-shadow: 0 20px 30px rgba(0, 0, 10, 0.85);
+
+        margin-bottom: 2rem;
+        border: 1px solid var(--border-color);
+      }
+
+      .success-message {
+        background: var(--accent-color);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: var(--shadow-md);
+      }
+
+      .success-message i {
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+      }
+
+      .success-message a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        word-break: break-all;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        transition: border-color 0.3s ease;
+      }
+
+      .success-message a:hover {
+        border-bottom-color: white;
+      }
+
+      .form-section {
+        margin-bottom: 3rem;
+      }
+
+      .form-section h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .url-form {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .url-input {
+        flex: 1;
+        min-width: 300px;
+        padding: 1rem 1.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: var(--secondary-color);
+      }
+
+      .url-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        background: white;
+      }
+
+      .generate-btn {
+        padding: 1rem 2rem;
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-md);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .generate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .generate-btn:active {
+        transform: translateY(0);
+      }
+
+      .urls-section h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .table-container {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-color);
+      }
+
+      .table {
+        margin: 0;
+        border: none;
+      }
+
+      .table thead th {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-dark)
+        );
+        color: white;
+        font-weight: 600;
+        padding: 1.25rem 1rem;
+        border: none;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .table tbody td {
+        padding: 1.25rem 1rem;
+        border-color: var(--border-color);
+        vertical-align: middle;
+        font-size: 0.95rem;
+
+        &:hover {
+          background-color: var(--secondary-color);
+          transition: background-color 0.2s ease;
+        }
+      }
+
+      .table tbody tr:nth-child(even) {
+        /* set even even row from table background color to grey */
+        background-color: rgba(248, 250, 252, 0.5);
+      }
+
+      .short-id {
+        font-family: "Monaco", "Menlo", monospace;
+        background: var(--secondary-color);
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        font-weight: 500;
+        color: var(--primary-color);
+      }
+
+      .redirect-url {
+        color: var(--text-secondary);
+        text-decoration: none;
+        max-width: 300px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        transition: color 0.3s ease;
+      }
+
+      .redirect-url:hover {
+        color: var(--primary-color);
+      }
+
+      .clicks-badge {
+        background: red;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .analytics-btn {
+        background: linear-gradient(135deg, #ff9500, #ff6f00);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        font-size: 0.85rem;
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow: var(--shadow-md);
+          color: white;
+        }
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--text-secondary);
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
+
+      @media (max-width: 768px) {
+        .container-custom {
+          padding: 1rem;
+        }
+
+        .header h1 {
+          font-size: 2.5rem;
+        }
+
+        .main-card {
+          padding: 1.5rem;
+        }
+
+        .url-form {
+          flex-direction: column;
+        }
+
+        .url-input {
+          min-width: auto;
+        }
+
+        .table-container {
+          overflow-x: auto;
+        }
+
+        .redirect-url {
+          max-width: 150px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>URL shortner</h1>
-    <% if(locals.id) {%>
-    <p>
-      <a href="http://localhost:8001/<%= id %>" target="_blank">
-        http://localhost:8001/<%= id %>
-      </a>
-    </p>
-    <% } %>
-    <div>
-      <form method="POST" action="/url">
-        <label for="Enter the URL"></label>
-        <input type="text" placeholder="http://lol.com" name="url" />
-        <button type="submit">Generate</button>
-      </form>
+    <div class="container-custom">
+      <div class="header">
+        <h1><i class="fas fa-link"></i> Nickly</h1>
+        <p>Transform long URLs into short links</p>
+      </div>
+
+      <div class="main-card">
+        <% if(locals.id) {%>
+        <div class="success-message">
+          <i class="fas fa-check-circle"></i>
+          <strong>Success!</strong> Your short URL is ready: <br /><br />
+          <a href="http://localhost:8001/<%= id %>" target="_blank">
+            http://localhost:8001/<%= id %>
+          </a>
+        </div>
+        <% } %>
+
+        <!-- form section -->
+        <div class="form-section">
+          <h2><i class="fas fa-magic"></i> Shorten Your URL</h2>
+          <form method="POST" action="/url" class="url-form">
+            <input
+              type="text"
+              placeholder="https://long-example-url.com"
+              name="url"
+              class="url-input"
+              required
+            />
+            <button type="submit" class="generate-btn">
+              <i class="fas fa-compress-alt"></i>
+              Generate
+            </button>
+          </form>
+        </div>
+
+        <!-- URLs table section  -->
+        <div class="urls-section">
+          <% if (locals.urls && urls.length > 0) { %>
+          <h2><i class="fas fa-list"></i> Your Shortened URLs</h2>
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th><i class="fas fa-hashtag"></i> #</th>
+                  <th><i class="fas fa-code"></i> Short ID</th>
+                  <th><i class="fas fa-external-link-alt"></i> Original URL</th>
+                  <th><i class="fas fa-mouse-pointer"></i> Clicks</th>
+                  <th><i class="fas fa-chart-bar"></i> Analytics</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% urls.forEach((url, index) => { %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td>
+                    <a
+                      href="http://localhost:8001/<%= url.shortId %>"
+                      target="_blank"
+                      class="short-id"
+                    >
+                      http://localhost:8001/<%= url.shortId %>
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href="<%= url.redirectURL %>"
+                      target="_blank"
+                      class="redirect-url"
+                    >
+                      <%= url.redirectURL %>
+                    </a>
+                  </td>
+                  <td>
+                    <span class="clicks-badge">
+                      <i class="fas fa-eye"></i>
+                      <%= url.visitHistory.length %>
+                    </span>
+                  </td>
+                  <td>
+                    <a
+                      href="/url/analytics/<%= url.shortId %>"
+                      class="analytics-btn"
+                    >
+                      <i class="fas fa-analytics"></i>
+                      View Analytics
+                    </a>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+          <% } else { %>
+          <div class="empty-state">
+            <i class="fas fa-link"></i>
+            <h3>No URLs shortened yet</h3>
+            <p>
+              Start by entering a URL above to create your first short link!
+            </p>
+          </div>
+          <% } %>
+        </div>
+      </div>
     </div>
   </body>
 </html>
