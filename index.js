@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const { connectToMongoDB } = require("./connect");
 const URL = require("./models/url");
 const urlRoute = require("./routes/url");
@@ -10,7 +11,17 @@ connectToMongoDB("mongodb://localhost:27017/short-url").then(() =>
   console.log("mongodb connected")
 );
 
+app.set("view engine", "ejs"); // set view engine
+app.set("views", path.resolve("./views"));
+
 app.use(express.json());  // Express built-in middleware to parse JSON
+
+app.get("/test", async(req, res) => {
+  const allUrls = await URL.find({});
+  return res.render("home", {
+    urls: allUrls,
+  });
+});
 
 app.use("/url", urlRoute);  // All routes inside urlRoute will be prefixed with /url
 app.get("/:shortId", async (req, res) => {
