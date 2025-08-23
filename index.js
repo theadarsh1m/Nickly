@@ -4,9 +4,11 @@ const { connectToMongoDB } = require("./connect");
 const URL = require("./models/url");
 const urlRoute = require("./routes/url");
 const staticRouter = require('./routes/staticRouter');
+
+const baseURL = process.env.BASE_URL || 'http://localhost:8001';
  
 const app = express();
-const PORT = 8001;
+const PORT = process.env.PORT || 8001;
 
 connectToMongoDB("mongodb://localhost:27017/short-url").then(() =>
   console.log("mongodb connected")
@@ -22,6 +24,7 @@ app.get("/test", async(req, res) => {
   const allUrls = await URL.find({});
   return res.render("home", {
     urls: allUrls,
+    baseURL,
   });
 });
 
