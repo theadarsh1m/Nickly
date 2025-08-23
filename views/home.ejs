@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL shortner</title>
-</head>
-<body>
-    <h1>Home page hi</h1>
+  <head>
+    <style>
+      body {
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+<link href="/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap JS (with Popper) -->
+<script src="/static/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <% urls.forEach(url => { %>
-        <li><%= url.shortId %></li>
-    <% }) %>
-</body>
+    <title>URL shortner</title>
+  </head>
+  <body>
+    <h1>URL shortner</h1>
+    <div>
+      <form method="POST" action="/url">
+        <label for="Enter the URL"></label>
+        <input type="text" placeholder="http://lol.com" name="url" />
+        <button type="submit">Generate</button>
+      </form>
+    </div>
+  </body>
 </html>

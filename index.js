@@ -3,7 +3,8 @@ const path = require("path");
 const { connectToMongoDB } = require("./connect");
 const URL = require("./models/url");
 const urlRoute = require("./routes/url");
-
+const staticRouter = require('./routes/staticRouter');
+ 
 const app = express();
 const PORT = 8001;
 
@@ -15,6 +16,7 @@ app.set("view engine", "ejs"); // set view engine
 app.set("views", path.resolve("./views"));
 
 app.use(express.json());  // Express built-in middleware to parse JSON
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/test", async(req, res) => {
   const allUrls = await URL.find({});
@@ -24,6 +26,9 @@ app.get("/test", async(req, res) => {
 });
 
 app.use("/url", urlRoute);  // All routes inside urlRoute will be prefixed with /url
+
+app.use("/", staticRouter);
+
 app.get("/:shortId", async (req, res) => {
   const shortId = req.params.shortId;
   const entry = await URL.findOneAndUpdate(
