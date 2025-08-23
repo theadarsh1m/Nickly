@@ -10,14 +10,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap CSS -->
-<link href="/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap JS (with Popper) -->
-<script src="/static/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="/static/bootstrap/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap JS (with Popper) -->
+    <script src="/static/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <title>URL shortner</title>
   </head>
   <body>
     <h1>URL shortner</h1>
+    <% if(locals.id) {%>
+    <p>
+      <a href="http://localhost:8001/<%= id %>" target="_blank">
+        http://localhost:8001/<%= id %>
+      </a>
+    </p>
+    <% } %>
     <div>
       <form method="POST" action="/url">
         <label for="Enter the URL"></label>
