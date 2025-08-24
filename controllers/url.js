@@ -30,6 +30,7 @@ async function handleGetAnalytics(req, res) {
     redirectURL: result.redirectURL,
     totalClicks: result.visitHistory.length,
     analytics: result.visitHistory,
+    baseURL: process.env.BASE_URL || "http://localhost:8001"
   });
 }
 
