@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 8001;
 // const baseURL = process.env.BASE_URL || (process.env.PORT ? `https://nickly.onrender.com/` : `http://localhost:${PORT}`);
 const baseURL = process.env.BASE_URL || `http://localhost:${PORT}`; 
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://2k23cs2312635:ClayTWIDW0oGBWdZ@cluster0.nxj2fhk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const MONGO_URI = process.env.MONGO_URI;
 
 connectToMongoDB(MONGO_URI);
 
