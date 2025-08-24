@@ -10,9 +10,13 @@ const baseURL = process.env.BASE_URL || 'http://localhost:8001';
 const app = express();
 const PORT = process.env.PORT || 8001;
 
-connectToMongoDB("mongodb://localhost:27017/short-url").then(() =>
-  console.log("mongodb connected")
-);
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://2k23cs2312635:ClayTWIDW0oGBWdZ@cluster0.nxj2fhk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+connectToMongoDB(MONGO_URI);
+
+// connectToMongoDB("mongodb://localhost:27017/short-url").then(() =>
+//   console.log("mongodb connected")
+// );
 
 app.set("view engine", "ejs"); // set view engine
 app.set("views", path.resolve("./views"));
@@ -55,5 +59,6 @@ app.get("/:shortId", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  `Server started at ${PORT}`;
+  console.log(`Server started at ${PORT}`);
 });
+
