@@ -2,6 +2,9 @@ const { nanoid } = require('nanoid'); // got this form npm js or nanoid github
 // shortid(4); //=> "oAIa"
 const URL = require('../models/url');
 
+const PORT = process.env.PORT || 8001;
+const baseURL = process.env.BASE_URL || `http://localhost:${PORT}`;
+
 async function handleGenerateNewShortUrl(req, res) {
     const body = req.body; //  data sent by client (POST request).
     if(!body.url) return res.status(400).json({ error: 'url is required'});
@@ -14,6 +17,7 @@ async function handleGenerateNewShortUrl(req, res) {
 
     return res.render("home", {
         id: shortId,
+        baseURL,
     })
     // return res.json({ id: shortId });
 }

@@ -2,13 +2,13 @@ const express = require('express');
 const URL = require("../models/url");
 const router = express.Router(); // to handle modular routes.
 
-const baseURL = process.env.BASE_URL || 'http://localhost:8001';
+// const baseURL = process.env.BASE_URL || (process.env.PORT ? `https://nickly.onrender.com/` : `http://localhost:${PORT}`);
 
 router.get("/", async (req, res) => {
     const allurls = await URL.find({}); // gets all urls from database
     return res.render("home", {
         urls: allurls,
-        baseURL,
+        baseURL: process.env.BASE_URL || `http://localhost:${process.env.PORT || 8001}`
     });
 })
 

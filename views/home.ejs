@@ -357,8 +357,8 @@
         <div class="success-message">
           <i class="fas fa-check-circle"></i>
           <strong>Success!</strong> Your short URL is ready: <br /><br />
-          <a href="baseURL/<%= id %>" target="_blank">
-            baseURL/<%= id %>
+          <a href="<%= baseURL %>/<%= id %>" target="_blank">
+            <%= baseURL %>/<%= id %>
           </a>
         </div>
         <% } %>
@@ -401,11 +401,11 @@
                   <td><%= index + 1 %></td>
                   <td>
                     <a
-                      href="baseURL/<%= url.shortId %>"
+                      href="<%= baseURL %>/<%= url.shortId %>"
                       target="_blank"
                       class="short-id"
                     >
-                      baseURL/<%= url.shortId %>
+                      <%= baseURL %>/<%= url.shortId %>
                     </a>
                   </td>
                   <td>
