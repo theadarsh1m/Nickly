@@ -20,8 +20,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8268053834879518"
-     crossorigin="anonymous"></script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8268053834879518"
+      crossorigin="anonymous"
+    ></script>
 
     <title>LinkShort - Premium URL Shortener</title>
 
@@ -316,6 +319,27 @@
         opacity: 0.5;
       }
 
+      .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
       @media (max-width: 768px) {
         .container-custom {
           padding: 1rem;
@@ -359,9 +383,17 @@
         <div class="success-message">
           <i class="fas fa-check-circle"></i>
           <strong>Success!</strong> Your short URL is ready: <br /><br />
-          <a href="<%= baseURL %>/<%= id %>" target="_blank">
-            <%= baseURL %>/<%= id %>
-          </a>
+          <div class="d-flex align-items-center justify-content-center gap-2">
+            <a href="<%= baseURL %>/<%= id %>" target="_blank" id="short-url">
+              <%= baseURL %>/<%= id %>
+            </a>
+            <button
+              class="btn btn-sm btn-outline-primary"
+              onclick="copyToClipboard('<%= baseURL %>/<%= id %>')"
+            >
+              <i class="fas fa-copy"></i> Copy
+            </button>
+          </div>
         </div>
         <% } %>
 
@@ -452,4 +484,14 @@
       </div>
     </div>
   </body>
+  <script>
+    async function copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Link copied to clipboard!");
+      } catch (err) {
+        console.error("Failed to copy: ", err);
+      }
+    }
+  </script>
 </html>
