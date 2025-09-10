@@ -9,6 +9,13 @@ async function handleGenerateNewShortUrl(req, res) {
     const body = req.body; //  data sent by client (POST request).
     if(!body.url) return res.status(400).json({ error: 'url is required'});
     const shortId = nanoid(8);
+    const existing = await URL.findOne({redirectURL: body.url});
+    if(existing) {
+        return res.render("home", {
+            id: existing.shortId,
+            baseURL,
+        })
+    }
     await URL.create({     // URL.create(...) → Mongoose method to insert a new document in MongoDB.
         shortId: shortId,
         redirectURL:  body.url,
