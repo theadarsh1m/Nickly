@@ -1,47 +1,80 @@
-const { nanoid } = require('nanoid'); // got this form npm js or nanoid github
+const { nanoid } = require("nanoid"); // got this form npm js or nanoid github
 // shortid(4); //=> "oAIa"
-const URL = require('../models/url');
+const URL = require("../models/url");
 
 const PORT = process.env.PORT || 8001;
 const baseURL = process.env.BASE_URL || `http://localhost:${PORT}`;
 
 async function handleGenerateNewShortUrl(req, res) {
-    const body = req.body; //  data sent by client (POST request).
-    if(!body.url) return res.status(400).json({ error: 'url is required'});
-    const shortId = nanoid(8);
-    const existing = await URL.findOne({redirectURL: body.url});
-    if(existing) {
-        return res.render("home", {
-            id: existing.shortId,
-            baseURL,
-        })
+  // const body = req.body; //  data sent by client (POST request).
+  const { url, customId } = req.body;
+  if (!url) return res.status(400).json({ error: "url is required" });
+
+  if (customId && customId.trim() !== "") {
+    const existingCustom = await URL.findOne({ shortId: customId });
+    if (existingCustom) {
+      return res.render("home", {
+        error: "Custom short ID is already taken",
+        baseURL,
+      });
     }
-    await URL.create({     // URL.create(...) → Mongoose method to insert a new document in MongoDB.
-        shortId: shortId,
-        redirectURL:  body.url,
-        visitHistory: [],
+    const existingURL = await URL.findOne({ redirectURL: url });
+    if (existingURL) {
+      return res.render("home", {
+        id: existingURL.shortId,
+        baseURL,
+      });
+    }
+
+    const customURL = await URL.create({
+      shortId: customId,
+      redirectURL: url,
+      visitHistory: [],
     });
 
     return res.render("home", {
-        id: shortId,
-        baseURL,
-    })
-    // return res.json({ id: shortId });
+      id: customURL.shortId,
+      baseURL,
+    });
+  }
+
+  const shortId = nanoid(8);
+
+  const existingURL = await URL.findOne({ redirectURL: url });
+
+  if (existingURL) {
+    return res.render("home", {
+      id: existingURL.shortId,
+      baseURL,
+    });
+  }
+  await URL.create({
+    // URL.create(...) → Mongoose method to insert a new document in MongoDB.
+    shortId: shortId,
+    redirectURL: url,
+    visitHistory: [],
+  });
+
+  return res.render("home", {
+    id: shortId,
+    baseURL,
+  });
+  // return res.json({ id: shortId });
 }
 
 async function handleGetAnalytics(req, res) {
-    const shortId = req.params.shortId; // req.params.shortId → dynamic parameter in URL (/analytics/:shortId).
-    const result = await URL.findOne({ shortId });  // URL.findOne(...) → Mongoose method to find a single document.
-    return res.render("analytics", {
+  const shortId = req.params.shortId; // req.params.shortId → dynamic parameter in URL (/analytics/:shortId).
+  const result = await URL.findOne({ shortId }); // URL.findOne(...) → Mongoose method to find a single document.
+  return res.render("analytics", {
     shortId: result.shortId,
     redirectURL: result.redirectURL,
     totalClicks: result.visitHistory.length,
     analytics: result.visitHistory,
-    baseURL: process.env.BASE_URL || "http://localhost:8001"
+    baseURL: process.env.BASE_URL || "http://localhost:8001",
   });
 }
 
 module.exports = {
-    handleGenerateNewShortUrl,
-    handleGetAnalytics,
-}
+  handleGenerateNewShortUrl,
+  handleGetAnalytics,
+};
