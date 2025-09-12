@@ -489,8 +489,7 @@
                   >Previous</a
                 >
               </li>
-              <% } %>
-              <% for (let i = 1; i <= totalPages; i++) { %>
+              <% } %> <% for (let i = 1; i <= totalPages; i++) { %>
               <li class="page-item <%= i === currentPage ? 'active' : '' %>">
                 <a class="page-link" href="/?page=<%= i %>"><%= i %></a>
               </li>
@@ -516,6 +515,59 @@
         </div>
       </div>
     </div>
+
+    <footer class="bg-dark text-light py-3 mt-5">
+      <div class="container d-flex justify-content-between align-items-center">
+        <div class="fw-bold">
+          Made with <i class="fas fa-heart text-danger"></i> by Adarsh Sachan
+        </div>
+
+        <div class="d-flex gap-3">
+          <a
+            href="https://github.com/theadarsh1m"
+            class="btn btn-outline-light btn-lg rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 60px; height: 60px"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="GitHub"
+          >
+            <i class="fab fa-github fa-lg"></i>
+          </a>
+          <a
+            href="https://linkedin.com/in/adarshsachan01"
+            class="btn btn-outline-primary btn-lg rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 60px; height: 60px"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="LinkedIn"
+          >
+            <i class="fab fa-linkedin fa-lg"></i>
+          </a>
+          <a
+            href="mailto:2k23.cs2312635@gmail.com"
+            class="btn btn-outline-danger btn-lg rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 60px; height: 60px"
+            title="Email"
+          >
+            <i class="fas fa-envelope fa-lg"></i>
+          </a>
+          <a
+            href="https://linktr.ee/theadarsh1m"
+            class="btn btn-outline-success btn-lg rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 60px; height: 60px"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Linktree"
+          >
+            <img
+              src="https://cdn.brandfetch.io/id_tNIm05N/w/400/h/400/theme/dark/icon.png?c=1bxid64Mup7aczewSAYMX&t=1667559949507"
+              alt="Linktree"
+              style="width: 24px; height: 24px; object-fit: contain"
+            />
+          </a>
+        </div>
+      </div>
+    </footer>
   </body>
   <script>
     async function copyToClipboard(text) {
