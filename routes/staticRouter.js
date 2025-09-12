@@ -1,6 +1,9 @@
 const express = require('express');
 const URL = require("../models/url");
 const router = express.Router(); // to handle modular routes.
+const { renderHome } = require("../controllers/url");
+
+router.get("/", renderHome);
 
 // const baseURL = process.env.BASE_URL || (process.env.PORT ? `https://nickly.onrender.com/` : `http://localhost:${PORT}`);
 

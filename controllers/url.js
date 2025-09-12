@@ -74,7 +74,29 @@ async function handleGetAnalytics(req, res) {
   });
 }
 
+async function renderHome(req, res) {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1) * limit;
+
+    const totalUrls = await URL.countDocuments();
+    const urls = await URL.find().skip(skip).limit(limit).lean();
+
+    res.render("home", {
+      urls,
+      baseURL: process.env.BASE_URL || `http://localhost:${process.env.PORT || 8001}`,
+      currentPage: page,
+      totalPages: Math.ceil(totalUrls / limit),
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+}
+
 module.exports = {
   handleGenerateNewShortUrl,
   handleGetAnalytics,
+  renderHome,
 };
