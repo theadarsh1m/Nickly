@@ -258,12 +258,19 @@
         border-radius: 8px;
         font-weight: 500;
         color: var(--primary-color);
+
+        max-width: 300px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        transition: color 0.3s ease;
       }
 
       .redirect-url {
         color: var(--text-secondary);
         text-decoration: none;
-        max-width: 300px;
+        max-width: 150px;
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -300,6 +307,8 @@
         gap: 0.5rem;
         transition: all 0.3s ease;
         font-size: 0.85rem;
+        white-space: nowrap;
+        flex-shrink: 0;
         &:hover {
           transform: translateY(-1px);
           box-shadow: var(--shadow-md);
@@ -340,6 +349,11 @@
         transform: translateY(0);
       }
 
+      .table td:last-child {
+        width: 1%; 
+        white-space: nowrap;
+      }
+
       @media (max-width: 768px) {
         .container-custom {
           padding: 1rem;
@@ -366,7 +380,7 @@
         }
 
         .redirect-url {
-          max-width: 150px;
+          max-width: 80px;
         }
       }
     </style>
@@ -426,7 +440,7 @@
         <!-- URLs table section  -->
         <div class="urls-section">
           <% if (locals.urls && urls.length > 0) { %>
-          <h2><i class="fas fa-list"></i> Your Shortened URLs</h2>
+          <h2><i class="fas fa-list"></i> Shortened URLs</h2>
           <div class="table-container">
             <table class="table">
               <thead>
