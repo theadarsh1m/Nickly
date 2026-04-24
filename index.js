@@ -21,7 +21,7 @@ connectToMongoDB(MONGO_URI);
 // );
 
 app.set("view engine", "ejs"); // set view engine
-app.set("views", path.resolve("./views"));
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());  // Express built-in middleware to parse JSON
 app.use(express.urlencoded({ extended: false }));
@@ -60,7 +60,10 @@ app.get("/:shortId", async (req, res) => {
   res.redirect(entry.redirectURL); // .redirect() → a built-in Express function that tells the browser/client to go to a different URL.
 });
 
-app.listen(PORT, () => {
-  console.log(`Server started at ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server started at ${PORT}`);
+  });
+}
 
+module.exports = app;
