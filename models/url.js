@@ -1,19 +1,34 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const urlSchema = new mongoose.Schema({  // mongoose.Schema(...) → built-in Mongoose class used to define a structure for documents in MongoDB.
-    shortId : {
-        type: String,
-        required: true,
-        unique: true,
+const urlSchema = new mongoose.Schema(
+  {
+    shortId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    entryType: {
+      type: String,
+      enum: ["url", "text"],
+      default: "url",
     },
     redirectURL: {
-        type: String,
-        required: true,
+      type: String,
+      required: function () {
+        return this.entryType === "url";
+      },
     },
-    visitHistory: [ { timestamp: { type: Number}}], // array which will have timestamps
-}, { timestamps: true });  // { timestamps: true } → automatically adds createdAt and updatedAt fields.
+    textContent: {
+      type: String,
+      required: function () {
+        return this.entryType === "text";
+      },
+    },
+    visitHistory: [{ timestamp: { type: Number } }],
+  },
+  { timestamps: true }
+);
 
-const URL = mongoose.model("url", urlSchema); // This connects the schema (urlSchema) with the MongoDB collection "urls" (Mongoose automatically pluralizes url → urls).
-// mongoose.model("url", urlSchema) → creates a model class called URL for CRUD operations.
+const URL = mongoose.model("url", urlSchema);
 
 module.exports = URL;

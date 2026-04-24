@@ -175,7 +175,7 @@
             <i class="fas fa-chart-line me-2"></i>
             Analytics Dashboard
           </h1>
-          <p class="page-subtitle">Detailed insights for your shortened URL</p>
+          <p class="page-subtitle">Detailed insights for your shortened link</p>
         </div>
 
         <!-- Added URL info card with better styling -->
@@ -194,6 +194,10 @@
                 </a>
               </h5>
               <p class="mb-0">
+                <% if (entryType === "text") { %>
+                <strong>Text snippet:</strong> Opens a saved text page for this
+                short ID.
+                <% } else { %>
                 <strong>Redirects to:</strong>
                 <a
                   href="<%= redirectURL %>"
@@ -203,6 +207,7 @@
                   <%= redirectURL %>
                   <i class="fas fa-external-link-alt ms-1"></i>
                 </a>
+                <% } %>
               </p>
             </div>
             <div class="col-md-4 text-end">

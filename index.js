@@ -3,64 +3,79 @@ const path = require("path");
 const { connectToMongoDB } = require("./connect");
 const URL = require("./models/url");
 const urlRoute = require("./routes/url");
-const staticRouter = require('./routes/staticRouter');
-require('dotenv').config();
+const staticRouter = require("./routes/staticRouter");
+
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 8001;
-
-// const baseURL = process.env.BASE_URL || (process.env.PORT ? `https://nickly.onrender.com/` : `http://localhost:${PORT}`);
-const baseURL = process.env.BASE_URL || `http://localhost:${PORT}`; 
-
+const baseURL = process.env.BASE_URL || `http://localhost:${PORT}`;
 const MONGO_URI = process.env.MONGO_URI;
 
 connectToMongoDB(MONGO_URI);
 
-// connectToMongoDB("mongodb://localhost:27017/short-url").then(() =>
-//   console.log("mongodb connected")
-// );
-
-app.set("view engine", "ejs"); // set view engine
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.json());  // Express built-in middleware to parse JSON
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/test", async(req, res) => {
-  const allUrls = await URL.find({});
-  return res.render("home", {
-    urls: allUrls,
-    baseURL,
-  });
+app.get("/test", async (req, res) => {
+  try {
+    const allUrls = await URL.find({}).lean();
+    return res.render("home", {
+      urls: allUrls,
+      baseURL,
+      currentPage: 1,
+      totalPages: 1,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Server Error");
+  }
 });
 
-app.use("/url", urlRoute);  // All routes inside urlRoute will be prefixed with /url
-
+app.use("/url", urlRoute);
 app.use("/", staticRouter);
 
 app.get("/:shortId", async (req, res) => {
-  const shortId = req.params.shortId;
-  const entry = await URL.findOneAndUpdate(
-    {
-      shortId,
-    },
-    {
-      $push: {
-        visitHistory: {
-          timestamp: Date.now(),
+  try {
+    const shortId = req.params.shortId;
+    const entry = await URL.findOneAndUpdate(
+      { shortId },
+      {
+        $push: {
+          visitHistory: { timestamp: Date.now() },
         },
       },
+      { new: true }
+    );
+
+    if (!entry) {
+      return res.status(404).send("Short URL not found");
     }
-  );
 
-  if (!entry) {
-    return res.status(404).send("Short URL not found");
+    const entryType = entry.entryType || "url";
+    if (entryType === "text") {
+      return res.render("text", {
+        shortId: entry.shortId,
+        textContent: entry.textContent,
+        baseURL,
+      });
+    }
+
+    if (!entry.redirectURL) {
+      return res.status(404).send("Destination not found");
+    }
+
+    return res.redirect(entry.redirectURL);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Server Error");
   }
-
-  res.redirect(entry.redirectURL); // .redirect() → a built-in Express function that tells the browser/client to go to a different URL.
 });
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
     console.log(`Server started at ${PORT}`);
   });
