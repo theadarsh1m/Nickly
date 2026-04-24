@@ -41,10 +41,16 @@ async function getHomePageData(req, page = 1) {
   const safePage = Math.max(Number.parseInt(page, 10) || 1, 1);
   const skip = (safePage - 1) * PAGE_LIMIT;
 
+  const sortParam = req.query.sort || "newest";
+  let sortOption = { createdAt: -1 };
+  if (sortParam === "oldest") sortOption = { createdAt: 1 };
+  else if (sortParam === "text-first") sortOption = { entryType: 1, createdAt: -1 };
+  else if (sortParam === "url-first") sortOption = { entryType: -1, createdAt: -1 };
+
   const publicQuery = { $or: [{ isPublic: true }, { isPublic: { $exists: false } }] };
   const totalUrls = await URL.countDocuments(publicQuery);
   const urls = await URL.find(publicQuery)
-    .sort({ createdAt: -1 })
+    .sort(sortOption)
     .skip(skip)
     .limit(PAGE_LIMIT)
     .lean();
@@ -52,13 +58,14 @@ async function getHomePageData(req, page = 1) {
   let myUrls = [];
   if (req.user) {
     myUrls = await URL.find({ createdBy: req.user._id })
-      .sort({ createdAt: -1 })
+      .sort(sortOption)
       .lean();
   }
 
   return {
     urls,
     myUrls,
+    currentSort: sortParam,
     currentPage: safePage,
     totalPages: Math.max(1, Math.ceil(totalUrls / PAGE_LIMIT)),
     user: req.user || null,

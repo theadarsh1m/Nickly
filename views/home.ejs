@@ -569,7 +569,18 @@
 
         <!-- URLs table section  -->
         <div class="urls-section">
-          <h2><i class="fas fa-list"></i> Shortened Links</h2>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0"><i class="fas fa-list"></i> Shortened Links</h2>
+            <div class="d-flex align-items-center gap-2">
+              <label for="sortFilter" class="fw-bold text-secondary mb-0" style="font-size: 0.9rem; white-space: nowrap;">Sort by:</label>
+              <select class="form-select form-select-sm shadow-sm" id="sortFilter" onchange="window.location.href='/?sort=' + this.value" style="border-radius: 8px; min-width: 150px; cursor: pointer;">
+                <option value="newest" <%= locals.currentSort === 'newest' ? 'selected' : '' %>>Newest First</option>
+                <option value="oldest" <%= locals.currentSort === 'oldest' ? 'selected' : '' %>>Oldest First</option>
+                <option value="text-first" <%= locals.currentSort === 'text-first' ? 'selected' : '' %>>Text Snippets First</option>
+                <option value="url-first" <%= locals.currentSort === 'url-first' ? 'selected' : '' %>>URLs First</option>
+              </select>
+            </div>
+          </div>
           
           <ul class="nav nav-tabs mb-4" id="linksTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -594,8 +605,7 @@
                       <th><i class="fas fa-code"></i> Short ID</th>
                       <th><i class="fas fa-layer-group"></i> Type</th>
                       <th><i class="fas fa-external-link-alt"></i> Destination</th>
-                      <th><i class="fas fa-mouse-pointer"></i> Clicks</th>
-                      <th><i class="fas fa-chart-bar"></i> Analytics</th>
+                      <th><i class="fas fa-mouse-pointer"></i> Views</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -622,13 +632,8 @@
                         <% } %>
                       </td>
                       <td>
-                        <span class="clicks-badge">
+                        <a href="/url/analytics/<%= url.shortId %>" class="clicks-badge text-decoration-none" title="View Analytics">
                           <i class="fas fa-eye"></i> <%= (url.visitHistory || []).length %>
-                        </span>
-                      </td>
-                      <td>
-                        <a href="/url/analytics/<%= url.shortId %>" class="analytics-btn">
-                          <i class="fas fa-analytics"></i> View Analytics
                         </a>
                       </td>
                     </tr>
@@ -640,16 +645,17 @@
               <!-- Pagination controls -->
               <% const page = typeof currentPage !== "undefined" ? currentPage : 1; %>
               <% const pages = typeof totalPages !== "undefined" ? totalPages : 1; %>
+              <% const sortQuery = locals.currentSort ? '&sort=' + locals.currentSort : ''; %>
               <nav class="mt-4">
                 <ul class="pagination justify-content-center">
                   <% if (page > 1) { %>
-                  <li class="page-item"><a class="page-link" href="/?page=<%= page - 1 %>">Previous</a></li>
+                  <li class="page-item"><a class="page-link" href="/?page=<%= page - 1 %><%= sortQuery %>">Previous</a></li>
                   <% } %>
                   <% for (let i = 1; i <= pages; i++) { %>
-                  <li class="page-item <%= i === page ? 'active' : '' %>"><a class="page-link" href="/?page=<%= i %>"><%= i %></a></li>
+                  <li class="page-item <%= i === page ? 'active' : '' %>"><a class="page-link" href="/?page=<%= i %><%= sortQuery %>"><%= i %></a></li>
                   <% } %>
                   <% if (page < pages) { %>
-                  <li class="page-item"><a class="page-link" href="/?page=<%= page + 1 %>">Next</a></li>
+                  <li class="page-item"><a class="page-link" href="/?page=<%= page + 1 %><%= sortQuery %>">Next</a></li>
                   <% } %>
                 </ul>
               </nav>
@@ -674,8 +680,7 @@
                       <th><i class="fas fa-code"></i> Short ID</th>
                       <th><i class="fas fa-layer-group"></i> Type</th>
                       <th><i class="fas fa-external-link-alt"></i> Destination</th>
-                      <th><i class="fas fa-mouse-pointer"></i> Clicks</th>
-                      <th><i class="fas fa-chart-bar"></i> Analytics</th>
+                      <th><i class="fas fa-mouse-pointer"></i> Views</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -702,13 +707,8 @@
                         <% } %>
                       </td>
                       <td>
-                        <span class="clicks-badge">
+                        <a href="/url/analytics/<%= url.shortId %>" class="clicks-badge text-decoration-none" title="View Analytics">
                           <i class="fas fa-eye"></i> <%= (url.visitHistory || []).length %>
-                        </span>
-                      </td>
-                      <td>
-                        <a href="/url/analytics/<%= url.shortId %>" class="analytics-btn">
-                          <i class="fas fa-analytics"></i> View Analytics
                         </a>
                       </td>
                     </tr>
