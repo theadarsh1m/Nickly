@@ -6,6 +6,7 @@ const URL = require("./models/url");
 const urlRoute = require("./routes/url");
 const staticRouter = require("./routes/staticRouter");
 const userRoute = require("./routes/user");
+const adminRoute = require("./routes/admin");
 const { checkForAuthentication } = require("./middlewares/auth");
 
 require("dotenv").config();
@@ -44,6 +45,7 @@ app.get("/test", async (req, res) => {
 
 app.use("/url", urlRoute);
 app.use("/user", userRoute);
+app.use("/admin", adminRoute);
 app.use("/", staticRouter);
 
 app.get("/:shortId", async (req, res) => {

@@ -439,6 +439,9 @@
         <div>
           <% if (locals.user) { %>
             <span class="text-light me-3">Hi, <%= user.username || user.name %> (<%= user.email %>)</span>
+            <% if (user.role === 'admin') { %>
+              <a href="/admin" class="btn btn-outline-warning btn-sm me-2"><i class="fas fa-shield-halved me-1"></i>Admin</a>
+            <% } %>
             <a href="/user/logout" class="btn btn-outline-light btn-sm">Logout</a>
           <% } else { %>
             <a href="/user/login" class="btn btn-outline-light btn-sm me-2">Log In</a>
