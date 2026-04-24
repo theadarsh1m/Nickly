@@ -1,9 +1,12 @@
 const express = require("express");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const { connectToMongoDB } = require("./connect");
 const URL = require("./models/url");
 const urlRoute = require("./routes/url");
 const staticRouter = require("./routes/staticRouter");
+const userRoute = require("./routes/user");
+const { checkForAuthentication } = require("./middlewares/auth");
 
 require("dotenv").config();
 
@@ -19,15 +22,19 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(checkForAuthentication);
 
 app.get("/test", async (req, res) => {
   try {
     const allUrls = await URL.find({}).lean();
     return res.render("home", {
       urls: allUrls,
+      myUrls: [],
       baseURL,
       currentPage: 1,
       totalPages: 1,
+      user: req.user || null,
     });
   } catch (err) {
     console.error(err);
@@ -36,6 +43,7 @@ app.get("/test", async (req, res) => {
 });
 
 app.use("/url", urlRoute);
+app.use("/user", userRoute);
 app.use("/", staticRouter);
 
 app.get("/:shortId", async (req, res) => {

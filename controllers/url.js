@@ -26,6 +26,7 @@ function getSubmittedFormData(body = {}) {
     customId: normalizeCustomId(body.customId),
     text: normalizeTextInput(body.text),
     textCustomId: normalizeCustomId(body.textCustomId),
+    visibility: body.visibility || "public",
   };
 }
 
@@ -36,26 +37,36 @@ function getCustomIdValidationMessage(customId) {
   return null;
 }
 
-async function getHomePageData(page = 1) {
+async function getHomePageData(req, page = 1) {
   const safePage = Math.max(Number.parseInt(page, 10) || 1, 1);
   const skip = (safePage - 1) * PAGE_LIMIT;
 
-  const totalUrls = await URL.countDocuments();
-  const urls = await URL.find()
+  const publicQuery = { $or: [{ isPublic: true }, { isPublic: { $exists: false } }] };
+  const totalUrls = await URL.countDocuments(publicQuery);
+  const urls = await URL.find(publicQuery)
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(PAGE_LIMIT)
     .lean();
 
+  let myUrls = [];
+  if (req.user) {
+    myUrls = await URL.find({ createdBy: req.user._id })
+      .sort({ createdAt: -1 })
+      .lean();
+  }
+
   return {
     urls,
+    myUrls,
     currentPage: safePage,
     totalPages: Math.max(1, Math.ceil(totalUrls / PAGE_LIMIT)),
+    user: req.user || null,
   };
 }
 
-async function renderHomeWithPayload(res, payload = {}) {
-  const homeData = await getHomePageData(1);
+async function renderHomeWithPayload(req, res, payload = {}) {
+  const homeData = await getHomePageData(req, 1);
   return res.render("home", {
     ...homeData,
     baseURL: getBaseURL(),
@@ -70,7 +81,7 @@ async function handleGenerateNewShortUrl(req, res) {
     const customId = formData.customId;
 
     if (!url) {
-      return renderHomeWithPayload(res, {
+      return renderHomeWithPayload(req, res, {
         error: "URL is required.",
         formData,
       });
@@ -79,7 +90,7 @@ async function handleGenerateNewShortUrl(req, res) {
     if (customId) {
       const idValidationMessage = getCustomIdValidationMessage(customId);
       if (idValidationMessage) {
-        return renderHomeWithPayload(res, {
+        return renderHomeWithPayload(req, res, {
           error: idValidationMessage,
           formData,
         });
@@ -87,7 +98,7 @@ async function handleGenerateNewShortUrl(req, res) {
 
       const existingCustom = await URL.findOne({ shortId: customId });
       if (existingCustom) {
-        return renderHomeWithPayload(res, {
+        return renderHomeWithPayload(req, res, {
           error: "Custom short ID is already taken.",
           formData,
         });
@@ -96,9 +107,10 @@ async function handleGenerateNewShortUrl(req, res) {
       const existingURL = await URL.findOne({
         redirectURL: url,
         $or: [{ entryType: "url" }, { entryType: { $exists: false } }],
+        createdBy: req.user ? req.user._id : { $exists: false },
       });
       if (existingURL) {
-        return renderHomeWithPayload(res, {
+        return renderHomeWithPayload(req, res, {
           id: existingURL.shortId,
           successType: "url",
         });
@@ -109,9 +121,11 @@ async function handleGenerateNewShortUrl(req, res) {
         entryType: "url",
         redirectURL: url,
         visitHistory: [],
+        createdBy: req.user ? req.user._id : undefined,
+        isPublic: formData.visibility === "public",
       });
 
-      return renderHomeWithPayload(res, {
+      return renderHomeWithPayload(req, res, {
         id: customURL.shortId,
         successType: "url",
       });
@@ -120,9 +134,10 @@ async function handleGenerateNewShortUrl(req, res) {
     const existingURL = await URL.findOne({
       redirectURL: url,
       $or: [{ entryType: "url" }, { entryType: { $exists: false } }],
+      createdBy: req.user ? req.user._id : { $exists: false },
     });
     if (existingURL) {
-      return renderHomeWithPayload(res, {
+      return renderHomeWithPayload(req, res, {
         id: existingURL.shortId,
         successType: "url",
       });
@@ -134,9 +149,11 @@ async function handleGenerateNewShortUrl(req, res) {
       entryType: "url",
       redirectURL: url,
       visitHistory: [],
+      createdBy: req.user ? req.user._id : undefined,
+      isPublic: formData.visibility === "public",
     });
 
-    return renderHomeWithPayload(res, {
+    return renderHomeWithPayload(req, res, {
       id: shortId,
       successType: "url",
     });
@@ -153,14 +170,14 @@ async function handleGenerateNewTextSnippet(req, res) {
     const textCustomId = formData.textCustomId;
 
     if (!text) {
-      return renderHomeWithPayload(res, {
+      return renderHomeWithPayload(req, res, {
         error: "Text is required.",
         formData,
       });
     }
 
     if (text.length > MAX_TEXT_LENGTH) {
-      return renderHomeWithPayload(res, {
+      return renderHomeWithPayload(req, res, {
         error: `Text is too long. Maximum allowed characters: ${MAX_TEXT_LENGTH}.`,
         formData,
       });
@@ -169,7 +186,7 @@ async function handleGenerateNewTextSnippet(req, res) {
     if (textCustomId) {
       const idValidationMessage = getCustomIdValidationMessage(textCustomId);
       if (idValidationMessage) {
-        return renderHomeWithPayload(res, {
+        return renderHomeWithPayload(req, res, {
           error: idValidationMessage,
           formData,
         });
@@ -177,15 +194,19 @@ async function handleGenerateNewTextSnippet(req, res) {
 
       const existingCustom = await URL.findOne({ shortId: textCustomId });
       if (existingCustom) {
-        return renderHomeWithPayload(res, {
+        return renderHomeWithPayload(req, res, {
           error: "Custom short ID is already taken.",
           formData,
         });
       }
 
-      const existingText = await URL.findOne({ entryType: "text", textContent: text });
+      const existingText = await URL.findOne({ 
+        entryType: "text", 
+        textContent: text,
+        createdBy: req.user ? req.user._id : { $exists: false }
+      });
       if (existingText) {
-        return renderHomeWithPayload(res, {
+        return renderHomeWithPayload(req, res, {
           id: existingText.shortId,
           successType: "text",
         });
@@ -196,17 +217,23 @@ async function handleGenerateNewTextSnippet(req, res) {
         entryType: "text",
         textContent: text,
         visitHistory: [],
+        createdBy: req.user ? req.user._id : undefined,
+        isPublic: formData.visibility === "public",
       });
 
-      return renderHomeWithPayload(res, {
+      return renderHomeWithPayload(req, res, {
         id: newTextEntry.shortId,
         successType: "text",
       });
     }
 
-    const existingText = await URL.findOne({ entryType: "text", textContent: text });
+    const existingText = await URL.findOne({ 
+      entryType: "text", 
+      textContent: text,
+      createdBy: req.user ? req.user._id : { $exists: false }
+    });
     if (existingText) {
-      return renderHomeWithPayload(res, {
+      return renderHomeWithPayload(req, res, {
         id: existingText.shortId,
         successType: "text",
       });
@@ -218,9 +245,11 @@ async function handleGenerateNewTextSnippet(req, res) {
       entryType: "text",
       textContent: text,
       visitHistory: [],
+      createdBy: req.user ? req.user._id : undefined,
+      isPublic: formData.visibility === "public",
     });
 
-    return renderHomeWithPayload(res, {
+    return renderHomeWithPayload(req, res, {
       id: shortId,
       successType: "text",
     });
@@ -256,7 +285,7 @@ async function handleGetAnalytics(req, res) {
 
 async function renderHome(req, res) {
   try {
-    const homeData = await getHomePageData(req.query.page);
+    const homeData = await getHomePageData(req, req.query.page);
     return res.render("home", {
       ...homeData,
       baseURL: getBaseURL(),

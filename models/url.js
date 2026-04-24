@@ -25,6 +25,14 @@ const urlSchema = new mongoose.Schema(
       },
     },
     visitHistory: [{ timestamp: { type: Number } }],
+    isPublic: {
+      type: Boolean,
+      default: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
   { timestamps: true }
 );
