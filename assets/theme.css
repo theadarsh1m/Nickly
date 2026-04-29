@@ -1,0 +1,240 @@
+:root {
+  color-scheme: light;
+  --theme-page-bg: #f8fafc;
+  --theme-surface: rgba(255, 255, 255, 0.95);
+  --theme-surface-strong: #f1f5f9;
+  --theme-text: #0f172a;
+  --theme-muted: #475569;
+  --theme-border: #e2e8f0;
+  --theme-shadow: 0 20px 30px rgba(0, 0, 10, 0.08);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-page-bg: #0f172a; /* Slate 900 */
+  --theme-surface: rgba(15, 23, 42, 0.75);
+  --theme-surface-strong: rgba(30, 41, 59, 0.85); /* Slate 800 */
+  --theme-text: #f8fafc; /* Slate 50 */
+  --theme-muted: #94a3b8; /* Slate 400 */
+  --theme-border: rgba(51, 65, 85, 0.6); /* Slate 700 */
+  --theme-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  
+  /* Update CSS variables used in inline styles and home.ejs */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --secondary-color: rgba(30, 41, 59, 0.85);
+  --border-color: rgba(51, 65, 85, 0.6);
+}
+
+:root[data-theme="dark"] body {
+  background:
+    linear-gradient(rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.92)),
+    url("https://static.vecteezy.com/system/resources/previews/002/289/261/large_2x/school-education-seamless-pattern-education-symbols-sketch-backdrop-with-school-supplies-back-to-school-icons-doodle-line-art-notebook-background-vector.jpg") !important;
+  background-repeat: repeat !important;
+  background-size: 80rem 80rem !important;
+  color: var(--theme-text) !important;
+}
+
+:root[data-theme="dark"] .main-card,
+:root[data-theme="dark"] .auth-card,
+:root[data-theme="dark"] .analytics-container,
+:root[data-theme="dark"] .chart-container,
+:root[data-theme="dark"] .url-info-card,
+:root[data-theme="dark"] .text-card,
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .table-container,
+:root[data-theme="dark"] .empty-state,
+:root[data-theme="dark"] .section-card {
+  background: var(--theme-surface) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--theme-border) !important;
+  color: var(--theme-text) !important;
+  box-shadow: var(--theme-shadow) !important;
+}
+
+:root[data-theme="dark"] .header {
+  background: rgba(2, 6, 23, 0.65) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(51, 65, 85, 0.4) !important;
+  color: var(--theme-text) !important;
+}
+
+:root[data-theme="dark"] h1,
+:root[data-theme="dark"] h2,
+:root[data-theme="dark"] h3,
+:root[data-theme="dark"] h4,
+:root[data-theme="dark"] h5,
+:root[data-theme="dark"] h6,
+:root[data-theme="dark"] .page-title,
+:root[data-theme="dark"] .section-title,
+:root[data-theme="dark"] .auth-card h2 {
+  color: var(--theme-text) !important;
+}
+
+:root[data-theme="dark"] p,
+:root[data-theme="dark"] label,
+:root[data-theme="dark"] .page-subtitle,
+:root[data-theme="dark"] .text-muted,
+:root[data-theme="dark"] .redirect-url,
+:root[data-theme="dark"] .dest-link,
+:root[data-theme="dark"] .text-preview,
+:root[data-theme="dark"] .empty-state,
+:root[data-theme="dark"] .form-check-label {
+  color: var(--theme-muted) !important;
+}
+
+:root[data-theme="dark"] .url-input,
+:root[data-theme="dark"] .form-control,
+:root[data-theme="dark"] .form-select,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] .toolbar .search-box,
+:root[data-theme="dark"] .toolbar select {
+  background: var(--theme-surface-strong) !important;
+  border: 1px solid var(--theme-border) !important;
+  color: var(--theme-text) !important;
+}
+
+:root[data-theme="dark"] .url-input::placeholder,
+:root[data-theme="dark"] .form-control::placeholder,
+:root[data-theme="dark"] textarea::placeholder,
+:root[data-theme="dark"] .toolbar .search-box::placeholder {
+  color: #64748b !important;
+}
+
+:root[data-theme="dark"] .table,
+:root[data-theme="dark"] .data-table,
+:root[data-theme="dark"] .table > :not(caption) > * > * {
+  background-color: transparent !important;
+  color: var(--theme-text) !important;
+  border-color: rgba(51, 65, 85, 0.4) !important;
+}
+
+:root[data-theme="dark"] .table tbody tr,
+:root[data-theme="dark"] .table tbody tr:nth-child(even),
+:root[data-theme="dark"] .data-table tbody tr {
+  background-color: transparent !important;
+}
+
+:root[data-theme="dark"] .table tbody tr:hover,
+:root[data-theme="dark"] .table tbody td:hover,
+:root[data-theme="dark"] .data-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+:root[data-theme="dark"] .table tbody td,
+:root[data-theme="dark"] .data-table tbody td {
+  border-color: rgba(51, 65, 85, 0.4) !important;
+}
+
+:root[data-theme="dark"] .short-id {
+  background: rgba(30, 41, 59, 0.8) !important;
+  color: #818cf8 !important;
+}
+
+:root[data-theme="dark"] .type-badge.url {
+  color: #34d399 !important;
+  background: rgba(16, 185, 129, 0.2) !important;
+}
+
+:root[data-theme="dark"] .type-badge.text {
+  color: #93c5fd !important;
+  background: rgba(59, 130, 246, 0.2) !important;
+}
+
+:root[data-theme="dark"] .nav-tabs {
+  border-color: var(--theme-border) !important;
+}
+
+:root[data-theme="dark"] .nav-tabs .nav-link {
+  color: var(--theme-muted) !important;
+}
+
+:root[data-theme="dark"] .nav-tabs .nav-link.active {
+  background: var(--theme-surface-strong) !important;
+  border-color: var(--theme-border) var(--theme-border) var(--theme-surface-strong) !important;
+  color: var(--theme-text) !important;
+}
+
+:root[data-theme="dark"] .page-link {
+  background: var(--theme-surface-strong) !important;
+  border-color: var(--theme-border) !important;
+  color: var(--theme-text) !important;
+}
+
+:root[data-theme="dark"] .page-item.active .page-link {
+  background: #6366f1 !important;
+  border-color: #6366f1 !important;
+  color: #ffffff !important;
+}
+
+:root[data-theme="dark"] a:not(.btn):not(.navbar-brand):not(.badge-custom):not(.short-link) {
+  color: #818cf8;
+}
+
+:root[data-theme="dark"] .modal-content,
+:root[data-theme="dark"] .dropdown-menu {
+  background: rgba(30, 41, 59, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  border-color: var(--theme-border) !important;
+  color: var(--theme-text) !important;
+}
+
+.theme-toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 2000;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 92px;
+  height: 42px;
+  padding: 0 0.8rem;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0f172a;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.22);
+  font: 600 0.85rem/1 "Inter", system-ui, sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.28);
+}
+
+.theme-toggle::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: inset -5px -5px 0 rgba(255, 255, 255, 0.55);
+  flex: 0 0 auto;
+  transition: all 0.3s ease;
+}
+
+:root[data-theme="dark"] .theme-toggle {
+  background: rgba(30, 41, 59, 0.92);
+  color: #f8fafc;
+  border-color: rgba(51, 65, 85, 0.8);
+}
+
+:root[data-theme="dark"] .theme-toggle::before {
+  background: #e2e8f0;
+  box-shadow: inset -6px -2px 0 #94a3b8;
+}
+
+@media (max-width: 640px) {
+  .theme-toggle {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    min-width: 84px;
+    height: 38px;
+    font-size: 0.8rem;
+  }
+}

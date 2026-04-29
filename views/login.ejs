@@ -7,6 +7,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/svg+xml" href="/assets/nickly-logo.svg" />
     <link rel="shortcut icon" href="/assets/nickly-logo.svg" />
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script
+      defer
+      src="/_vercel/insights/script.js"
+      data-sdkn="@vercel/analytics"
+      data-sdkv="2.0.1"
+    ></script>
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("nickly-theme");
+          const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.dataset.theme = saved || (systemDark ? "dark" : "light");
+        } catch (err) {}
+      })();
+    </script>
     <title>Log In - Nickly</title>
     <style>
       body {
@@ -61,6 +83,8 @@
         text-align: center;
       }
     </style>
+    <link rel="stylesheet" href="/assets/theme.css" />
+    <script defer src="/assets/theme.js"></script>
   </head>
   <body>
     <div class="auth-card">

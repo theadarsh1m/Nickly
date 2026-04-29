@@ -18,6 +18,28 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <script>
+      window.va =
+        window.va ||
+        function () {
+          (window.vaq = window.vaq || []).push(arguments);
+        };
+    </script>
+    <script
+      defer
+      src="/_vercel/insights/script.js"
+      data-sdkn="@vercel/analytics"
+      data-sdkv="2.0.1"
+    ></script>
+    <script>
+      (function () {
+        try {
+          const saved = localStorage.getItem("nickly-theme");
+          const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.dataset.theme = saved || (systemDark ? "dark" : "light");
+        } catch (err) {}
+      })();
+    </script>
 
     <style>
       :root {
@@ -26,12 +48,21 @@
         --accent: #10b981;
         --danger: #ef4444;
         --danger-dark: #dc2626;
+        --bg: #f8fafc;
+        --bg-card: #ffffff;
+        --bg-card-hover: #f1f5f9;
+        --text: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+      }
+
+      :root[data-theme="dark"] {
         --bg: #0f172a;
-        --bg-card: #1e293b;
-        --bg-card-hover: #334155;
-        --text: #f1f5f9;
+        --bg-card: rgba(15, 23, 42, 0.75);
+        --bg-card-hover: rgba(30, 41, 59, 0.85);
+        --text: #f8fafc;
         --text-muted: #94a3b8;
-        --border: #334155;
+        --border: rgba(51, 65, 85, 0.6);
       }
 
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -385,6 +416,8 @@
         .data-table tbody td { padding: 0.65rem 0.5rem; }
       }
     </style>
+    <link rel="stylesheet" href="/assets/theme.css" />
+    <script defer src="/assets/theme.js"></script>
   </head>
 
   <body>
