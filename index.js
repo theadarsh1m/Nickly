@@ -8,19 +8,24 @@ const staticRouter = require("./routes/staticRouter");
 const userRoute = require("./routes/user");
 const adminRoute = require("./routes/admin");
 const { checkForAuthentication } = require("./middlewares/auth");
+const { getBaseURL } = require("./utils/baseUrl");
 
 require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 8001;
-const baseURL = process.env.BASE_URL || `http://localhost:${PORT}`;
 const MONGO_URI = process.env.MONGO_URI;
 
 connectToMongoDB(MONGO_URI);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.set("trust proxy", true);
 
+app.use("/assets", express.static(path.join(__dirname, "assets")));
+app.get("/favicon.ico", (req, res) => {
+  res.redirect(301, "/assets/nickly-logo.svg");
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -32,7 +37,7 @@ app.get("/test", async (req, res) => {
     return res.render("home", {
       urls: allUrls,
       myUrls: [],
-      baseURL,
+      baseURL: getBaseURL(req),
       currentPage: 1,
       totalPages: 1,
       user: req.user || null,
@@ -70,7 +75,7 @@ app.get("/:shortId", async (req, res) => {
       return res.render("text", {
         shortId: entry.shortId,
         textContent: entry.textContent,
-        baseURL,
+        baseURL: getBaseURL(req),
       });
     }
 

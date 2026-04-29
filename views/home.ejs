@@ -20,13 +20,15 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="icon" type="image/svg+xml" href="/assets/nickly-logo.svg" />
+    <link rel="shortcut icon" href="/assets/nickly-logo.svg" />
     <script
       async
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8268053834879518"
       crossorigin="anonymous"
     ></script>
 
-    <title>LinkShort - Premium URL Shortener</title>
+    <title>Nickly - Premium URL Shortener</title>
 
     <style>
       :root {
@@ -87,6 +89,25 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.85rem;
+      }
+
+      .site-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        object-fit: cover;
+        flex: 0 0 auto;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+      }
+
+      .header .site-logo {
+        width: 66px;
+        height: 66px;
+        border-radius: 12px;
       }
 
       .header p {
@@ -435,7 +456,10 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
       <div class="container-custom d-flex justify-content-between align-items-center w-100 py-2">
-        <a class="navbar-brand fw-bold text-white fs-4 text-decoration-none" href="/"><i class="fas fa-link"></i> Nickly</a>
+        <a class="navbar-brand fw-bold text-white fs-4 text-decoration-none d-inline-flex align-items-center gap-2" href="/">
+          <img src="/assets/nickly-logo.svg" alt="Nickly" class="site-logo" />
+          <span>Nickly</span>
+        </a>
         <div>
           <% if (locals.user) { %>
             <span class="text-light me-3">Hi, <%= user.username || user.name %> (<%= user.email %>)</span>

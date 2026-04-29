@@ -1,14 +1,10 @@
 const { nanoid } = require("nanoid");
 const URL = require("../models/url");
+const { getBaseURL } = require("../utils/baseUrl");
 
-const PORT = process.env.PORT || 8001;
 const PAGE_LIMIT = 10;
 const CUSTOM_ID_PATTERN = /^[a-zA-Z0-9_-]+$/;
 const MAX_TEXT_LENGTH = 10000;
-
-function getBaseURL() {
-  return process.env.BASE_URL || `http://localhost:${PORT}`;
-}
 
 function normalizeCustomId(customId) {
   if (typeof customId !== "string") return "";
@@ -76,7 +72,7 @@ async function renderHomeWithPayload(req, res, payload = {}) {
   const homeData = await getHomePageData(req, 1);
   return res.render("home", {
     ...homeData,
-    baseURL: getBaseURL(),
+    baseURL: getBaseURL(req),
     ...payload,
   });
 }
@@ -282,7 +278,7 @@ async function handleGetAnalytics(req, res) {
       textContent: result.textContent,
       totalClicks: (result.visitHistory || []).length,
       analytics: result.visitHistory || [],
-      baseURL: getBaseURL(),
+      baseURL: getBaseURL(req),
     });
   } catch (err) {
     console.error(err);
@@ -295,7 +291,7 @@ async function renderHome(req, res) {
     const homeData = await getHomePageData(req, req.query.page);
     return res.render("home", {
       ...homeData,
-      baseURL: getBaseURL(),
+      baseURL: getBaseURL(req),
     });
   } catch (err) {
     console.error(err);

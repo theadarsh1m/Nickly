@@ -1,5 +1,6 @@
 const URL = require("../models/url");
 const User = require("../models/user");
+const { getBaseURL } = require("../utils/baseUrl");
 
 async function renderAdminPage(req, res) {
   try {
@@ -33,13 +34,11 @@ async function renderAdminPage(req, res) {
       totalUsers: await User.countDocuments({}),
     };
 
-    const baseURL = process.env.BASE_URL || `http://localhost:${process.env.PORT || 8001}`;
-
     return res.render("admin", {
       urls: allUrls,
       users: allUsers,
       stats,
-      baseURL,
+      baseURL: getBaseURL(req),
       user: req.user,
       currentSort: sortParam,
       currentType: typeFilter,

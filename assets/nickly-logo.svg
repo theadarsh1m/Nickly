@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Nickly logo</title>
+  <desc id="desc">A white dimensional letter N on a black background.</desc>
+  <defs>
+    <linearGradient id="face" x1="112" y1="88" x2="404" y2="424" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.58" stop-color="#f6f6f2"/>
+      <stop offset="1" stop-color="#d8d9d3"/>
+    </linearGradient>
+    <linearGradient id="side" x1="132" y1="112" x2="220" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ededeb"/>
+      <stop offset="1" stop-color="#bfc1bc"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#000000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="#0c0c0c"/>
+  <g filter="url(#shadow)">
+    <path d="M135 126h82l160 260h-83L135 126z" fill="#f8f8f5"/>
+    <path d="M135 126h82v260h-82V126z" fill="url(#side)"/>
+    <path d="M295 126h82v260h-82V126z" fill="url(#face)"/>
+    <path d="M135 126h82l160 260h-83L135 126z" fill="url(#face)"/>
+    <path d="M135 126l23 49v211h-23V126z" fill="#aeb1ab" opacity="0.45"/>
+    <path d="M217 126l160 260h-32L185 126h32z" fill="#ffffff" opacity="0.7"/>
+  </g>
+</svg>
