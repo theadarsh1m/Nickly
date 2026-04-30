@@ -27,6 +27,9 @@ app.use("/assets", express.static(path.join(__dirname, "assets")));
 app.get("/favicon.ico", (req, res) => {
   res.redirect(301, "/assets/nickly-logo.svg");
 });
+app.get("/sw.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "sw.js"));
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
