@@ -7,6 +7,7 @@ const urlRoute = require("./routes/url");
 const staticRouter = require("./routes/staticRouter");
 const userRoute = require("./routes/user");
 const adminRoute = require("./routes/admin");
+const blogRoute = require("./routes/blog");
 const { checkForAuthentication } = require("./middlewares/auth");
 const { getBaseURL } = require("./utils/baseUrl");
 
@@ -51,6 +52,7 @@ app.get("/test", async (req, res) => {
 app.use("/url", urlRoute);
 app.use("/user", userRoute);
 app.use("/admin", adminRoute);
+app.use("/blog", blogRoute);
 app.use("/", staticRouter);
 
 app.get("/:shortId", async (req, res) => {

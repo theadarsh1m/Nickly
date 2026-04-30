@@ -484,7 +484,8 @@
           <img src="/assets/nickly-logo.svg" alt="Nickly" class="site-logo" />
           <span>Nickly</span>
         </a>
-        <div>
+        <div class="d-flex align-items-center">
+          <a href="/blog" class="text-white text-decoration-none me-4 fw-bold"><i class="fas fa-blog me-1"></i>Blog</a>
           <% if (locals.user) { %>
             <span class="text-light me-3">Hi, <%= user.username || user.name %> (<%= user.email %>)</span>
             <% if (user.role === 'admin') { %>
