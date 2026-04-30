@@ -9,6 +9,10 @@
   --theme-shadow: 0 20px 30px rgba(0, 0, 10, 0.08);
 }
 
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
 :root[data-theme="dark"] {
   color-scheme: dark;
   --theme-page-bg: #0f172a; /* Slate 900 */

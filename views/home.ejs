@@ -485,15 +485,15 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-      <div class="container-custom d-flex justify-content-between align-items-center w-100 py-2">
+      <div class="container-custom d-flex flex-wrap justify-content-between align-items-center w-100 py-2 gap-2">
         <a class="navbar-brand fw-bold text-white fs-4 text-decoration-none d-inline-flex align-items-center gap-2" href="/">
           <img src="/assets/nickly-logo.svg" alt="Nickly" class="site-logo" />
           <span>Nickly</span>
         </a>
-        <div class="d-flex align-items-center">
-          <a href="/blog" class="text-white text-decoration-none me-4 fw-bold"><i class="fas fa-blog me-1"></i>Blog</a>
+        <div class="d-flex align-items-center flex-wrap gap-2">
+          <a href="/blog" class="text-white text-decoration-none me-3 fw-bold"><i class="fas fa-blog me-1"></i>Blog</a>
           <% if (locals.user) { %>
-            <span class="text-light me-3">Hi, <%= user.username || user.name %> (<%= user.email %>)</span>
+            <span class="text-light me-2 text-truncate" style="max-width: 200px;">Hi, <%= user.username || user.name %> <span class="d-none d-md-inline">(<%= user.email %>)</span></span>
             <% if (user.role === 'admin') { %>
               <a href="/admin" class="btn btn-outline-warning btn-sm me-2"><i class="fas fa-shield-halved me-1"></i>Admin</a>
             <% } %>
@@ -855,7 +855,7 @@
       </div>
     </footer>
     <!-- Ad Block -->
-    <div style="text-align: center; margin: 20px 0;">
+    <div style="text-align: center; margin: 20px 0; max-width: 100vw; overflow-x: hidden; box-sizing: border-box;">
       <!-- Native Banner -->
       <script async="async" data-cfasync="false" src="https://pl29304430.profitablecpmratenetwork.com/2cb23a077340a5ccd8a440afd00d8aac/invoke.js"></script>
       <div id="container-2cb23a077340a5ccd8a440afd00d8aac"></div>
