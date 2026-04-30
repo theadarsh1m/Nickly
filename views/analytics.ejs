@@ -294,11 +294,11 @@
                 </td>
                 <td>
                   <i class="fas fa-calendar me-2 text-muted"></i>
-                  <%= new Date(entry.timestamp).toLocaleDateString() %>
+                  <%= new Date(entry.timestamp).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) %>
                 </td>
                 <td>
                   <i class="fas fa-clock me-2 text-muted"></i>
-                  <%= new Date(entry.timestamp).toLocaleTimeString() %>
+                  <%= new Date(entry.timestamp).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' }) %>
                 </td>
                 <td>
                   <span class="badge bg-success">
@@ -341,7 +341,7 @@
       // Process data for chart
       const clicksByDate = {};
       analytics.forEach(entry => {
-        const date = new Date(entry.timestamp).toLocaleDateString();
+        const date = new Date(entry.timestamp).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
         clicksByDate[date] = (clicksByDate[date] || 0) + 1;
       });
 
