@@ -299,9 +299,33 @@ async function renderHome(req, res) {
   }
 }
 
+async function handleTrackAction(req, res) {
+  try {
+    const { shortId } = req.params;
+    const { action } = req.body;
+    if (!action) return res.status(400).json({ error: "Action is required" });
+
+    const entry = await URL.findOneAndUpdate(
+      { shortId },
+      {
+        $push: {
+          visitHistory: { timestamp: Date.now(), action },
+        },
+      },
+      { new: true }
+    );
+    if (!entry) return res.status(404).json({ error: "URL entry not found" });
+    return res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server Error" });
+  }
+}
+
 module.exports = {
   handleGenerateNewShortUrl,
   handleGenerateNewTextSnippet,
   handleGetAnalytics,
   renderHome,
+  handleTrackAction,
 };

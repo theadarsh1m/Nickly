@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Nickly - Redirecting...</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom theme/override tokens -->
+    <link rel="stylesheet" href="/assets/theme.css" />
+    <script defer src="/assets/theme.js"></script>
+
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-hover: #4f46e5;
+        --bg-surface: rgba(255, 255, 255, 0.85);
+        --bg-glass: rgba(255, 255, 255, 0.6);
+        --border-glass: rgba(226, 232, 240, 0.8);
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+      }
+
+      [data-theme="dark"] {
+        --bg-surface: rgba(15, 23, 42, 0.85);
+        --bg-glass: rgba(30, 41, 59, 0.6);
+        --border-glass: rgba(51, 65, 85, 0.8);
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0;
+        padding: 1.5rem 1rem;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      [data-theme="dark"] body {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+      }
+
+      .main-container {
+        width: 100%;
+        max-width: 960px;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin: auto;
+      }
+
+      .grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 2rem;
+      }
+
+      @media (max-width: 991px) {
+        .grid-layout {
+          grid-template-columns: 1fr;
+        }
+        .ad-sidebar {
+          display: none;
+        }
+      }
+
+      /* Card styling */
+      .glass-card {
+        background: var(--bg-surface);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--border-glass);
+        border-radius: 1.25rem;
+        padding: 2.5rem 2rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .logo-section {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-weight: 700;
+        font-size: 1.75rem;
+        align-self: center;
+      }
+
+      .logo-img {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
+      }
+
+      .title-heading {
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 0;
+        color: var(--text-primary);
+      }
+
+      /* Timer */
+      .timer-circle {
+        position: relative;
+        width: 110px;
+        height: 110px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--bg-glass);
+        border: 4px solid var(--border-glass);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+      }
+
+      .timer-num {
+        font-size: 2.75rem;
+        font-weight: 800;
+        color: var(--primary);
+      }
+
+      /* Destination info */
+      .dest-card {
+        background: var(--bg-glass);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .dest-label {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .dest-url {
+        font-weight: 600;
+        color: var(--text-primary);
+        word-break: break-all;
+      }
+
+      /* Text snippet content */
+      .text-box {
+        background: var(--bg-glass);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
+        padding: 1.25rem;
+        min-height: 140px;
+        max-height: 350px;
+        overflow-y: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        color: var(--text-primary);
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      /* Action buttons */
+      .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .btn-continue {
+        background: var(--primary);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 0.875rem 1.5rem;
+        border-radius: 10px;
+        transition: background-color 0.2s, transform 0.1s;
+        box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+      }
+
+      .btn-continue:hover {
+        background: var(--primary-hover);
+        color: #fff;
+        transform: translateY(-1px);
+      }
+
+      .btn-outline-custom {
+        background: transparent;
+        border: 1px solid var(--border-glass);
+        color: var(--text-primary);
+        font-weight: 600;
+        padding: 0.875rem 1.5rem;
+        border-radius: 10px;
+        transition: background-color 0.2s, color 0.2s;
+      }
+
+      .btn-outline-custom:hover {
+        background: var(--bg-glass);
+        color: var(--text-primary);
+      }
+
+      /* Placeholders/Banner ads */
+      .ad-container {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-glass);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .ad-top-banner {
+        width: 100%;
+        min-height: 90px;
+        margin-bottom: 0.5rem;
+      }
+
+      .ad-native {
+        width: 100%;
+        min-height: 120px;
+        margin-top: 0.5rem;
+      }
+
+      .ad-sidebar {
+        width: 300px;
+        min-height: 500px;
+        position: sticky;
+        top: 2rem;
+      }
+
+      .ad-sticky-bottom {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        min-height: 60px;
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border-glass);
+        z-index: 1000;
+        padding: 0.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .ad-label {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        opacity: 0.7;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top banner ad slot -->
+    <div class="ad-container ad-top-banner mb-4">
+      <div class="ad-label">Advertisement</div>
+      <script>
+        atOptions = {
+          'key' : '41c19d7e7f7d8cda64d4a8768a64b8a6',
+          'format' : 'iframe',
+          'height' : 60,
+          'width' : 468,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highperformanceformat.com/41c19d7e7f7d8cda64d4a8768a64b8a6/invoke.js"></script>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-container">
+      <div class="grid-layout">
+        <!-- Center panel -->
+        <div class="glass-card">
+          <a href="/" class="logo-section">
+            <img src="/assets/nickly-logo.svg" alt="Nickly" class="logo-img" />
+            <span>Nickly</span>
+          </a>
+
+          <% if (redirectURL) { %>
+            <h1 class="title-heading">You are being redirected...</h1>
+
+            <div class="timer-circle">
+              <span id="countdown" class="timer-num">3</span>
+            </div>
+
+            <div class="dest-card">
+              <span class="dest-label">Destination</span>
+              <span id="dest-url" class="dest-url"></span>
+            </div>
+          <% } else if (textContent) { %>
+            <h1 class="title-heading">Saved Text Snippet</h1>
+          <% } %>
+
+          <% if (textContent) { %>
+            <div class="dest-card">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="dest-label mb-0">Saved Text</span>
+                <button class="btn btn-sm btn-outline-primary py-1 px-2 rounded" onclick="copyTextSnippet(this)" style="font-size: 0.75rem; font-weight: 600;">
+                  <i class="fas fa-copy me-1"></i> Copy Text
+                </button>
+              </div>
+              <div id="text-snippet-box" class="text-box"><%= textContent %></div>
+            </div>
+          <% } %>
+
+          <!-- Native Ad below content/timer -->
+          <div class="ad-container ad-native">
+            <div class="ad-label">Sponsored Content</div>
+            <script async="async" data-cfasync="false" src="https://pl29304430.profitablecpmratenetwork.com/2cb23a077340a5ccd8a440afd00d8aac/invoke.js"></script>
+            <div id="container-2cb23a077340a5ccd8a440afd00d8aac"></div>
+            <a href="https://www.profitablecpmratenetwork.com/myi8vinp?key=f472b2bceaf1c4aa1357f8832de39fde" target="_blank" rel="noopener noreferrer" style="font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; margin-top: 5px;">Exclusive offer</a>
+          </div>
+
+          <!-- Buttons Section -->
+          <div class="action-buttons">
+            <% if (redirectURL) { %>
+              <button id="btn-continue" class="btn btn-continue" onclick="manualContinue()">
+                <i class="fas fa-arrow-right me-2"></i>Continue Now
+              </button>
+            <% } %>
+
+            <% if (textContent) { %>
+              <button class="btn btn-outline-custom" onclick="copyTextSnippet(this)">
+                <i class="fas fa-copy me-2"></i>Copy Text
+              </button>
+            <% } %>
+
+            <button class="btn btn-outline-custom" onclick="goBack()">
+              <i class="fas fa-arrow-left me-2"></i>Go Back
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar ad slot for Desktop -->
+        <div class="ad-container ad-sidebar">
+          <div class="ad-label">Advertisement</div>
+          <div style="display: block;">
+            <script>
+              atOptions = {
+                'key' : 'a7913b2301490c0bb3c5b4290a485956',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+              };
+            </script>
+            <script src="https://www.highperformanceformat.com/a7913b2301490c0bb3c5b4290a485956/invoke.js"></script>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky bottom mobile banner -->
+    <div class="ad-sticky-bottom">
+      <script>
+        atOptions = {
+          'key' : 'd3fce93ecf2d773e7864c70551fd8f88',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highperformanceformat.com/d3fce93ecf2d773e7864c70551fd8f88/invoke.js"></script>
+    </div>
+
+    <!-- Optional Social bar ad slot -->
+    <div class="ad-social-bar" style="display:none;">
+      <script src="https://pl29304432.profitablecpmratenetwork.com/03/2c/b1/032cb19978e5d7dfc6fd1641726b8df3.js"></script>
+    </div>
+
+    <script>
+      const redirectURL = "<%= redirectURL %>";
+      const shortId = "<%= shortId %>";
+
+      // Countdown logic
+      if (redirectURL) {
+        let seconds = 3;
+        const countdownEl = document.getElementById("countdown");
+        const urlObj = document.getElementById("dest-url");
+
+        urlObj.textContent = redirectURL;
+
+        const timer = setInterval(() => {
+          seconds--;
+          if (countdownEl) countdownEl.textContent = seconds;
+
+          if (seconds <= 0) {
+            clearInterval(timer);
+            // Track successful direct redirection
+            trackAction("redirect_success", () => {
+              window.location.href = redirectURL;
+            });
+          }
+        }, 1000);
+      }
+
+      function manualContinue() {
+        if (redirectURL) {
+          trackAction("manual_continue", () => {
+            window.location.href = redirectURL;
+          });
+        }
+      }
+
+      function trackAction(actionName, callback) {
+        fetch(`/url/track/${shortId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: actionName }),
+        })
+          .then(() => {
+            if (callback) callback();
+          })
+          .catch((err) => {
+            console.error("Tracking Error:", err);
+            if (callback) callback();
+          });
+      }
+
+      function copyTextSnippet(btn) {
+        const txt = document.getElementById("text-snippet-box")?.textContent;
+        if (txt) {
+          navigator.clipboard.writeText(txt).then(() => {
+            if (btn) {
+              const originalContent = btn.innerHTML;
+              btn.innerHTML = `<i class="fas fa-check me-1"></i> Copied!`;
+              setTimeout(() => {
+                btn.innerHTML = originalContent;
+              }, 2000);
+            }
+            trackAction("text_copy");
+          }).catch(err => {
+            console.error("Copy text error:", err);
+          });
+        }
+      }
+
+      function goBack() {
+        if (document.referrer && document.referrer !== window.location.href) {
+          window.location.href = document.referrer;
+        } else {
+          window.location.href = "/";
+        }
+      }
+    </script>
+  </body>
+</html>

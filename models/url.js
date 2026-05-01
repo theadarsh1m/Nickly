@@ -24,7 +24,7 @@ const urlSchema = new mongoose.Schema(
         return this.entryType === "text";
       },
     },
-    visitHistory: [{ timestamp: { type: Number } }],
+    visitHistory: [{ timestamp: { type: Number }, action: { type: String } }],
     isPublic: {
       type: Boolean,
       default: true,

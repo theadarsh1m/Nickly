@@ -65,7 +65,7 @@ app.get("/:shortId", async (req, res) => {
       { shortId },
       {
         $push: {
-          visitHistory: { timestamp: Date.now() },
+          visitHistory: { timestamp: Date.now(), action: "page_view" },
         },
       },
       { new: true }
@@ -76,19 +76,14 @@ app.get("/:shortId", async (req, res) => {
     }
 
     const entryType = entry.entryType || "url";
-    if (entryType === "text") {
-      return res.render("text", {
-        shortId: entry.shortId,
-        textContent: entry.textContent,
-        baseURL: getBaseURL(req),
-      });
-    }
 
-    if (!entry.redirectURL) {
-      return res.status(404).send("Destination not found");
-    }
-
-    return res.redirect(entry.redirectURL);
+    return res.render("redirect", {
+      shortId: entry.shortId,
+      entryType,
+      redirectURL: entry.redirectURL || null,
+      textContent: entry.textContent || null,
+      baseURL: getBaseURL(req),
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).send("Server Error");
