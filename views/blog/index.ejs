@@ -161,9 +161,55 @@
         gap: 0.75rem;
       }
 
+      /* Ads must never overflow */
+      iframe, img, video, embed, object {
+        max-width: 100%;
+      }
+
       @media (max-width: 768px) {
         .blog-grid {
           grid-template-columns: 1fr;
+          gap: 1.25rem;
+        }
+
+        .blog-card-content {
+          padding: 1.25rem;
+        }
+
+        .blog-title {
+          font-size: 1.2rem;
+        }
+
+        .container-custom {
+          padding: 1rem 0.75rem;
+        }
+
+        .header {
+          margin: 20px auto;
+          padding: 20px 16px;
+        }
+
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .header p {
+          font-size: 0.95rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .blog-title {
+          font-size: 1.05rem;
+        }
+
+        .blog-meta {
+          font-size: 0.78rem;
+          gap: 0.5rem;
         }
       }
     </style>
@@ -295,7 +341,7 @@
     </div>
     
     <!-- Mega Ad Block Before Footer (160x600 & 728x90) -->
-    <div class="d-flex flex-wrap justify-content-center gap-3 py-4 w-100" style="background: rgba(0,0,0,0.05);">
+    <div class="d-flex flex-wrap justify-content-center gap-3 py-4 w-100" style="background: rgba(0,0,0,0.05); overflow-x: hidden; max-width: 100vw; box-sizing: border-box;">
       <div>
         <script>
           atOptions = { 'key' : '75039e008ae808d8673a1fde738aa3f6', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };

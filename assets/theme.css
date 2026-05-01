@@ -242,3 +242,246 @@ body {
     font-size: 0.8rem;
   }
 }
+
+/* ===== GLOBAL RESPONSIVE FIXES ===== */
+
+/* Prevent ANY horizontal overflow site-wide */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+  width: 100%;
+}
+
+/* Ads & iframes must never overflow their containers */
+iframe, img, video, embed, object {
+  max-width: 100% !important;
+  height: auto;
+}
+
+/* Force iframes with fixed widths to respect container */
+iframe[width], iframe[style*="width"] {
+  max-width: 100% !important;
+}
+
+/* Ad containers should be responsive */
+div[style*="text-align: center"],
+div[style*="text-align:center"] {
+  max-width: 100vw;
+  overflow-x: hidden !important;
+  box-sizing: border-box;
+}
+
+/* Theme toggle must not cause overflow */
+.theme-toggle {
+  max-width: calc(100vw - 2rem);
+}
+
+/* ===== NAVBAR RESPONSIVE ===== */
+
+/* Tablet: stack nav items better */
+@media (max-width: 992px) {
+  .navbar .container-custom {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .navbar .d-flex.align-items-center {
+    gap: 0.35rem !important;
+  }
+
+  .navbar .text-truncate {
+    max-width: 100px !important;
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile: stack nav items vertically */
+@media (max-width: 576px) {
+  .navbar .container-custom {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center;
+    gap: 0.5rem !important;
+    padding: 0.5rem;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 1.15rem !important;
+  }
+
+  .navbar .d-flex.align-items-center {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.35rem !important;
+  }
+
+  .navbar .text-truncate {
+    max-width: 140px !important;
+    font-size: 0.8rem;
+  }
+
+  .navbar .btn {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+/* ===== FOOTER RESPONSIVE ===== */
+@media (max-width: 768px) {
+  footer .container,
+  footer .container-custom {
+    flex-direction: column !important;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  footer .d-flex.gap-3 {
+    justify-content: center !important;
+    flex-wrap: wrap;
+  }
+
+  footer .d-flex.gap-3 a[style*="width: 60px"],
+  footer .d-flex.gap-3 a[style*="width: 45px"] {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  footer .fw-bold {
+    font-size: 0.9rem;
+  }
+}
+
+/* ===== BLOG RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  .blog-card-content {
+    padding: 1.25rem !important;
+  }
+
+  .blog-title {
+    font-size: 1.2rem !important;
+  }
+
+  .blog-excerpt {
+    font-size: 0.9rem;
+  }
+
+  .header {
+    margin: 20px auto !important;
+    padding: 20px 16px !important;
+  }
+
+  .header h1 {
+    font-size: 2rem !important;
+  }
+
+  .header p {
+    font-size: 0.95rem !important;
+  }
+
+  /* Blog post content */
+  .post-container {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .post-title {
+    font-size: 1.6rem !important;
+  }
+
+  .recent-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .header p {
+    font-size: 0.85rem !important;
+  }
+
+  .blog-title {
+    font-size: 1.05rem !important;
+  }
+
+  .post-title {
+    font-size: 1.35rem !important;
+  }
+}
+
+/* ===== ANALYTICS RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .analytics-container {
+    padding: 1rem !important;
+    margin: 0 0.5rem;
+  }
+
+  .stats-number {
+    font-size: 1.75rem !important;
+  }
+
+  .stats-label {
+    font-size: 0.78rem !important;
+  }
+
+  .chart-container {
+    padding: 1rem !important;
+  }
+
+  .chart-container canvas {
+    max-height: 250px;
+  }
+}
+
+/* ===== REDIRECT PAGE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .title-heading {
+    font-size: 1.2rem !important;
+  }
+
+  .timer-circle {
+    width: 90px !important;
+    height: 90px !important;
+  }
+
+  .timer-num {
+    font-size: 2.25rem !important;
+  }
+
+  .dest-url {
+    font-size: 0.85rem;
+  }
+
+  .ad-sticky-bottom {
+    min-height: 50px !important;
+    padding: 0.25rem !important;
+  }
+}
+
+/* ===== TEXT VIEWER RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .text-card {
+    margin: 0 0.5rem;
+  }
+
+  .text-card .card-body {
+    padding: 1.25rem !important;
+  }
+}
+
+/* ===== TABLE RESPONSIVE (GLOBAL) ===== */
+@media (max-width: 768px) {
+  .table-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}

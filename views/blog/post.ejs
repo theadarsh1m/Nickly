@@ -194,12 +194,61 @@
         margin: 0;
       }
 
+      /* Ads must never overflow */
+      iframe, img, video, embed, object {
+        max-width: 100%;
+      }
+
       @media (max-width: 768px) {
-        .post-container {
-          padding: 2rem 1.5rem;
+        .container-custom {
+          padding: 1rem 0.75rem;
         }
+
+        .post-container {
+          padding: 1.5rem 1rem;
+        }
+
         .post-title {
-          font-size: 2rem;
+          font-size: 1.6rem;
+        }
+
+        .post-meta {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .post-content {
+          font-size: 1rem;
+        }
+
+        .post-content h2 {
+          font-size: 1.4rem;
+        }
+
+        .post-content h3 {
+          font-size: 1.15rem;
+        }
+
+        .recent-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .back-to-blog {
+          margin-bottom: 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .post-title {
+          font-size: 1.35rem;
+        }
+
+        .post-content {
+          font-size: 0.95rem;
+        }
+
+        .recent-card h4 {
+          font-size: 0.95rem;
         }
       }
     </style>
@@ -313,7 +362,7 @@
     </div>
 
     <!-- Mega Ad Block Before Footer (160x600 & 728x90) -->
-    <div class="d-flex flex-wrap justify-content-center gap-3 py-4 w-100" style="background: rgba(0,0,0,0.05);">
+    <div class="d-flex flex-wrap justify-content-center gap-3 py-4 w-100" style="background: rgba(0,0,0,0.05); overflow-x: hidden; max-width: 100vw; box-sizing: border-box;">
       <div>
         <script>
           atOptions = { 'key' : '75039e008ae808d8673a1fde738aa3f6', 'format' : 'iframe', 'height' : 600, 'width' : 160, 'params' : {} };
